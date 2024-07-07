@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 @CapacitorPlugin(name = "CapacitorKeepAwake")
 public class CapacitorKeepAwakePlugin extends Plugin {
     final AppCompatActivity activity = getActivity();
-    private final CapacitorKeepAwake implementation = new CapacitorKeepAwake();
+    public CapacitorKeepAwake implementation = new CapacitorKeepAwake();
 
     @PluginMethod
     public void keepAwake(PluginCall call) {

@@ -1,5 +1,5 @@
 {
-  "name": "@gachlab/capacitor-keep-away-plugin",
+  "name": "@gachlab/capacitor-keep-awake-plugin",
   "version": "0.0.1",
   "description": "A plugin to prevent device sleep",
   "main": "dist/plugin.cjs.js",
