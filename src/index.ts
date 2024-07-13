@@ -1,13 +1,10 @@
 import { registerPlugin } from '@capacitor/core';
 
-import type { CapacitorKeepAwakePlugin } from './definitions';
+import type { KeepAwakePlugin } from './definitions';
 
-const CapacitorKeepAwake = registerPlugin<CapacitorKeepAwakePlugin>(
-  'CapacitorKeepAwake',
-  {
-    web: () => import('./web').then(m => new m.CapacitorKeepAwakeWeb()),
-  },
-);
+const KeepAwake = registerPlugin<KeepAwakePlugin>('KeepAwake', {
+  web: () => import('./web').then(m => new m.KeepAwakeWeb()),
+});
 
 export * from './definitions';
-export { CapacitorKeepAwake };
+export { KeepAwake };

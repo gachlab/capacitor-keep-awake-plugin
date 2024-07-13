@@ -1,12 +1,23 @@
 # node files
 dist
 node_modules
+.vscode
+.swiftpm
 
 # iOS files
 Pods
 Podfile.lock
+Package.resolved
 Build
 xcuserdata
+/.build
+/Packages
+xcuserdata/
+DerivedData/
+.swiftpm/configuration/registries.json
+.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+.netrc
+
 
 # macOS files
 .DS_Store

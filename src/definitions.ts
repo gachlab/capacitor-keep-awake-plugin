@@ -1,4 +1,4 @@
-export interface CapacitorKeepAwakePlugin {
-  keepAwake(): Promise<{ isKeepAwake: boolean }>;
-  allowSleep(): Promise<{ isKeepAwake: boolean }>;
+export interface KeepAwakePlugin {
+  dontAllowSleep(): Promise<{ isAllowdSleep: boolean }>;
+  allowSleep(): Promise<{ isAllowdSleep: boolean }>;
 }

@@ -1,12 +1,12 @@
 import XCTest
-@testable import CapacitorKeepAwakePlugin
+@testable import KeepAwakePlugin
 
-class CapacitorKeepAwakeTests: XCTestCase {
+class KeepAwakeTests: XCTestCase {
     func testEcho() {
         // This is an example of a functional test case for a plugin.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
 
-        let implementation = CapacitorKeepAwake()
+        let implementation = KeepAwake()
         let value = "Hello, World!"
         let result = implementation.echo(value)
 

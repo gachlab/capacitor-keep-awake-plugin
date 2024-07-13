@@ -8,5 +8,5 @@ project(':capacitor-camera').projectDir = new File('../node_modules/@capacitor/c
 include ':capacitor-splash-screen'
 project(':capacitor-splash-screen').projectDir = new File('../node_modules/@capacitor/splash-screen/android')
 
-include ':capacitor-keep-away-plugin'
-project(':capacitor-keep-away-plugin').projectDir = new File('../../android')
+include ':gachlab-capacitor-keep-awake-plugin'
+project(':gachlab-capacitor-keep-awake-plugin').projectDir = new File('../../android')

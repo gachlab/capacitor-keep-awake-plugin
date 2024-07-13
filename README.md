@@ -1,11 +1,11 @@
-# capacitor-keep-away-plugin
+# @gachlab/capacitor-keep-awake-plugin
 
-A plugin to prevent device sleep
+A plugin to keep awake the device screen
 
 ## Install
 
 ```bash
-npm install capacitor-keep-away-plugin
+npm install @gachlab/capacitor-keep-awake-plugin
 npx cap sync
 ```
 
@@ -13,7 +13,7 @@ npx cap sync
 
 <docgen-index>
 
-* [`keepAwake()`](#keepawake)
+* [`dontAllowSleep()`](#dontallowsleep)
 * [`allowSleep()`](#allowsleep)
 
 </docgen-index>
@@ -21,13 +21,13 @@ npx cap sync
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
 
-### keepAwake()
+### dontAllowSleep()
 
 ```typescript
-keepAwake() => Promise<{ isKeepAwake: boolean; }>
+dontAllowSleep() => Promise<{ isAllowdSleep: boolean; }>
 ```
 
-**Returns:** <code>Promise&lt;{ isKeepAwake: boolean; }&gt;</code>
+**Returns:** <code>Promise&lt;{ isAllowdSleep: boolean; }&gt;</code>
 
 --------------------
 
@@ -35,10 +35,10 @@ keepAwake() => Promise<{ isKeepAwake: boolean; }>
 ### allowSleep()
 
 ```typescript
-allowSleep() => Promise<{ isKeepAwake: boolean; }>
+allowSleep() => Promise<{ isAllowdSleep: boolean; }>
 ```
 
-**Returns:** <code>Promise&lt;{ isKeepAwake: boolean; }&gt;</code>
+**Returns:** <code>Promise&lt;{ isAllowdSleep: boolean; }&gt;</code>
 
 --------------------
 

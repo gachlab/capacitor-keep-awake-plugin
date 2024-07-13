@@ -4,7 +4,7 @@ export default {
     {
       file: 'dist/plugin.js',
       format: 'iife',
-      name: 'capacitorCapacitorKeepAwake',
+      name: 'capacitorKeepAwake',
       globals: {
         '@capacitor/core': 'capacitorExports',
       },

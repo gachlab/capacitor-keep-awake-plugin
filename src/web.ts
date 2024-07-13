@@ -1,15 +1,13 @@
 import { WebPlugin } from '@capacitor/core';
 
-import type { CapacitorKeepAwakePlugin } from './definitions';
+import type { KeepAwakePlugin } from './definitions';
 
-export class CapacitorKeepAwakeWeb
-  extends WebPlugin
-  implements CapacitorKeepAwakePlugin {
-  keepAwake(): Promise<{ isKeepAwake: boolean; }> {
-    return Promise.resolve({ isKeepAwake: false });
+export class KeepAwakeWeb extends WebPlugin implements KeepAwakePlugin {
+  dontAllowSleep(): Promise<{ isAllowdSleep: boolean; }> {
+    throw new Error('Method not implemented for Web.');
   }
-  allowSleep(): Promise<{ isKeepAwake: boolean; }> {
-    return Promise.resolve({ isKeepAwake: false });
+  allowSleep(): Promise<{ isAllowdSleep: boolean; }> {
+    throw new Error('Method not implemented for Web.');
   }
-
+ 
 }

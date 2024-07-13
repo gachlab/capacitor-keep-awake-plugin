@@ -2,27 +2,27 @@
 import PackageDescription
 
 let package = Package(
-    name: "CapacitorKeepAwayPlugin",
+    name: "GachlabCapacitorKeepAwakePlugin",
     platforms: [.iOS(.v13)],
     products: [
         .library(
-            name: "CapacitorKeepAwayPlugin",
-            targets: ["CapacitorKeepAwakePlugin"])
+            name: "GachlabCapacitorKeepAwakePlugin",
+            targets: ["KeepAwakePlugin"])
     ],
     dependencies: [
         .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", branch: "main")
     ],
     targets: [
         .target(
-            name: "CapacitorKeepAwakePlugin",
+            name: "KeepAwakePlugin",
             dependencies: [
                 .product(name: "Capacitor", package: "capacitor-swift-pm"),
                 .product(name: "Cordova", package: "capacitor-swift-pm")
             ],
-            path: "ios/Sources/CapacitorKeepAwakePlugin"),
+            path: "ios/Sources/KeepAwakePlugin"),
         .testTarget(
-            name: "CapacitorKeepAwakePluginTests",
-            dependencies: ["CapacitorKeepAwakePlugin"],
-            path: "ios/Tests/CapacitorKeepAwakePluginTests")
+            name: "KeepAwakePluginTests",
+            dependencies: ["KeepAwakePlugin"],
+            path: "ios/Tests/KeepAwakePluginTests")
     ]
 )
