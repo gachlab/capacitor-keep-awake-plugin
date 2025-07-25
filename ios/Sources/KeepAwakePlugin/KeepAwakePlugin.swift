@@ -18,12 +18,12 @@ public class KeepAwakePlugin: CAPPlugin, CAPBridgedPlugin {
 
     @objc func dontAllowSleep(_ call: CAPPluginCall) {
         call.resolve([
-            "isAllowedSleep": implementation.dontAllowSleep()
+            "isAllowdSleep": implementation.dontAllowSleep()
         ])
     }
     @objc func allowSleep(_ call: CAPPluginCall) {
          call.resolve([
-            "isAllowedSleep": implementation.allowSleep()
+            "isAllowdSleep": implementation.allowSleep()
         ])
     }
 }

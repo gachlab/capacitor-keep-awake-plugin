@@ -1,6 +1,6 @@
 {
   "name": "@gachlab/capacitor-keep-awake-plugin",
-  "version": "1.1.0",
+  "version": "2.1.0",
   "description": "A plugin to keep awake the device screen",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -40,9 +40,10 @@
     "prettier": "prettier \"**/*.{css,html,ts,js,java}\" --plugin=prettier-plugin-java",
     "swiftlint": "node-swiftlint",
     "docgen": "docgen --api KeepAwakePlugin --output-readme README.md --output-json dist/docs.json",
-    "build": "npm run clean && npm run docgen && tsc && rollup -c rollup.config.mjs",
+    "build": "npm run clean && vite build && npm run generate-types",
+    "generate-types": "echo 'export interface KeepAwakePlugin { dontAllowSleep(): Promise<{ isAllowdSleep: boolean }>; allowSleep(): Promise<{ isAllowdSleep: boolean }>; } declare const KeepAwake: KeepAwakePlugin; export { KeepAwake };' > dist/esm/index.d.ts",
     "clean": "rimraf ./dist",
-    "watch": "tsc --watch",
+    "watch": "vite build --watch",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
@@ -57,9 +58,10 @@
     "prettier": "^3.4.2",
     "prettier-plugin-java": "^2.6.6",
     "rimraf": "^6.0.1",
-    "rollup": "^4.30.1",
     "swiftlint": "^2.0.0",
-    "typescript": "~4.1.5"
+    "typescript": "~4.1.5",
+    "vite": "^5.4.19",
+    "vite-plugin-dts": "^3.9.1"
   },
   "peerDependencies": {
     "@capacitor/core": ">=7.0.0"

@@ -1,11 +1,5 @@
 package com.gachlab.capacitor.keepawake;
 
-import android.app.Activity;
-import android.util.Log;
-import android.view.WindowManager;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
@@ -19,18 +13,15 @@ public class KeepAwakePlugin extends Plugin {
 
     @PluginMethod
     public void dontAllowSleep(PluginCall call) {
-        String value = call.getString("value");
-        AppCompatActivity activity=getActivity();
         JSObject ret = new JSObject();
-        ret.put("isAllowedSleep",implementation.dontAllowSleep(activity));
+        ret.put("isAllowdSleep", implementation.dontAllowSleep(getActivity()));
         call.resolve(ret);
     }
+
     @PluginMethod
     public void allowSleep(PluginCall call) {
-        String value = call.getString("value");
-        AppCompatActivity activity=getActivity();
         JSObject ret = new JSObject();
-        ret.put("isAllowedSleep",implementation.allowSleep(activity));
+        ret.put("isAllowdSleep", implementation.allowSleep(getActivity()));
         call.resolve(ret);
     }
 }
