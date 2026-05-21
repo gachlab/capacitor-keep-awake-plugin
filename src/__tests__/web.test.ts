@@ -69,9 +69,7 @@ describe('KeepAwakeWeb', () => {
     });
 
     it('dontAllowSleep handles request failure gracefully', async () => {
-      (navigator.wakeLock.request as ReturnType<typeof vi.fn>).mockRejectedValue(
-        new Error('Not allowed'),
-      );
+      (navigator.wakeLock.request as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('Not allowed'));
       const result = await plugin.dontAllowSleep();
       expect(result).toEqual({ isAllowedSleep: true });
     });
