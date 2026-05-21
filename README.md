@@ -43,6 +43,8 @@ Prevents the device screen from going to sleep. On Web, this requests a screen w
 
 **Returns:** `{ isAllowedSleep: false }` when the screen is successfully kept awake. On Web, returns `{ isAllowedSleep: true }` if the wake lock request was denied.
 
+> **About the property name.** `isAllowedSleep` describes whether the device is *allowed to sleep*. After a successful `dontAllowSleep()` call the screen is held awake, so sleeping is no longer allowed — that's why the property is `false`. On Web, a `true` here means the browser refused the wake lock and the screen can still sleep.
+
 ---
 
 ### allowSleep()
