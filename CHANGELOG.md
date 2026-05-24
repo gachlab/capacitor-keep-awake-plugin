@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 3.0.2 (2026-05-24)
+
+### Bug Fixes
+
+- **Android/Build:** `android/build.gradle` referenced `getDefaultProguardFile('proguard-android.txt')`, which AGP 8+ no longer supports (it bundles `-dontoptimize`, neutralizing R8). Consumer apps on AGP 8+ failed Gradle sync. Switched to `proguard-android-optimize.txt`, matching the sibling plugins (dnd, permissions, kiosk). Patch only — no consumer-facing API change. Closes #1.
+
 ## 3.0.1 (2026-05-21)
 
 ### Bug Fixes
