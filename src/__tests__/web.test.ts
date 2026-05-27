@@ -73,5 +73,37 @@ describe('KeepAwakeWeb', () => {
       const result = await plugin.dontAllowSleep();
       expect(result).toEqual({ isAllowedSleep: true });
     });
+
+    it('emits wakeLockReleased when the system releases the lock', async () => {
+      let releaseHandler: (() => void) | undefined;
+      mockSentinel.addEventListener = vi.fn((event: string, cb: () => void) => {
+        if (event === 'release') releaseHandler = cb;
+      });
+      const events: Array<{ reason: string; timestamp: number }> = [];
+      await plugin.addListener('wakeLockReleased', (e) => events.push(e));
+      await plugin.dontAllowSleep();
+
+      releaseHandler?.();
+
+      expect(events).toHaveLength(1);
+      expect(events[0].reason).toBe('browser');
+      expect(typeof events[0].timestamp).toBe('number');
+    });
+
+    it('does not emit wakeLockReleased on an explicit allowSleep', async () => {
+      let releaseHandler: (() => void) | undefined;
+      mockSentinel.addEventListener = vi.fn((event: string, cb: () => void) => {
+        if (event === 'release') releaseHandler = cb;
+      });
+      const events: unknown[] = [];
+      await plugin.addListener('wakeLockReleased', (e) => events.push(e));
+      await plugin.dontAllowSleep();
+      await plugin.allowSleep();
+
+      // Browsers also fire 'release' as a result of our own release() call.
+      releaseHandler?.();
+
+      expect(events).toHaveLength(0);
+    });
   });
 });
