@@ -69,6 +69,21 @@ Checks whether the screen is currently being kept awake by this plugin.
 
 **Returns:** `{ isKeepAwake: true }` if the screen is being kept awake, `{ isKeepAwake: false }` otherwise.
 
+---
+
+### addListener('wakeLockReleased', ...)
+
+```typescript
+addListener(
+  eventName: 'wakeLockReleased',
+  listenerFunc: (event: { reason: 'browser' | 'visibility' | 'system'; timestamp: number }) => void,
+) => Promise<PluginListenerHandle>
+```
+
+Fires when an active wake lock is released **by the system**, not by an explicit `allowSleep()` call — so you learn the screen may now sleep without your consent. `timestamp` is the epoch time in milliseconds.
+
+This is primarily a **web** signal: browsers drop the Screen Wake Lock when the page becomes hidden (`'visibility'`) or under system pressure such as low battery (`'browser'`), and it must be re-requested. On Android/iOS the OS-level keep-awake is firm while the activity/scene lives, so the event does not fire there today (`'system'` is reserved for a future native break detector).
+
 ## Platform Notes
 
 ### Web
