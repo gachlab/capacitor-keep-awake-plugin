@@ -32,11 +32,15 @@ adb shell am start -n "${PACKAGE}/${ACTIVITY}"
 # Wait until the WebView completes the auto-sequence (the :false line is logged
 # last, so seeing it means both round-trips happened).
 echo "→ Waiting for the auto-sequence to complete"
-if ! timeout 90 bash -c 'until adb logcat -d 2>/dev/null | grep -q "\[KEEPAWAKE-E2E\] isKeepAwake:false"; do sleep 2; done'; then
-  echo "✗ keep-awake auto-sequence never completed within 90 s"
-  adb logcat -d | grep -iE "Capacitor|chromium|console|error" | tail -30
-  exit 1
-fi
+SEQ_END=$(( $(date +%s) + 90 ))
+until adb logcat -d 2>/dev/null | grep -q "\[KEEPAWAKE-E2E\] isKeepAwake:false"; do
+  if [[ $(date +%s) -ge $SEQ_END ]]; then
+    echo "✗ keep-awake auto-sequence never completed within 90 s"
+    adb logcat -d | grep -iE "Capacitor|chromium|console|error" | tail -30
+    exit 1
+  fi
+  sleep 2
+done
 
 adb logcat -d > "$LOGCAT_OUT" 2>&1 || true
 
