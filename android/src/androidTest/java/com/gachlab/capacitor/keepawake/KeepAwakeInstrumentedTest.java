@@ -2,7 +2,6 @@ package com.gachlab.capacitor.keepawake;
 
 import static org.junit.Assert.*;
 
-import android.app.Activity;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import org.junit.Test;
@@ -17,7 +16,7 @@ public class KeepAwakeInstrumentedTest {
 
     @Test
     public void dontAllowSleep_thenAllowSleep_toggleRealFlag() {
-        try (ActivityScenario<Activity> scenario = ActivityScenario.launch(Activity.class)) {
+        try (ActivityScenario<TestActivity> scenario = ActivityScenario.launch(TestActivity.class)) {
             scenario.onActivity((activity) -> {
                 KeepAwake keepAwake = new KeepAwake();
                 try {
