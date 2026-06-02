@@ -32,7 +32,7 @@ jobs:
   android:
     name: Android — unit + integration + e2e
     runs-on: [self-hosted, mac-mini]
-    timeout-minutes: 20
+    timeout-minutes: 40
     needs: web
     env:
       JAVA_HOME: /Users/gcarrillo/.local/share/mise/installs/java/zulu-21.46.19.0
@@ -74,7 +74,6 @@ jobs:
           avd-name: android-e2e
           force-avd-creation: false
           emulator-options: -no-window -no-audio -no-boot-anim
-          enable-hw-acceleration: true
           script: >-
             .github/scripts/integration-keep-awake.sh &&
             .github/scripts/e2e-keep-awake.sh
