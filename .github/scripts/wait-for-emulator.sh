@@ -24,7 +24,7 @@ poll_until() {
 echo "→ Waiting for emulator to be install-ready"
 adb wait-for-device
 
-for svc in package activity; do
+for svc in package activity power; do
   if ! poll_until 300 sh -c "adb shell service check ${svc} 2>/dev/null | grep -q 'found'"; then
     echo "✗ service '${svc}' did not come up in 300s"; exit 1
   fi

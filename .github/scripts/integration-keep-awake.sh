@@ -22,7 +22,22 @@ echo "→ Installing instrumented test APK: $TEST_APK"
 adb install -r -t --no-streaming "$TEST_APK"
 
 echo "→ Running instrumented tests ($RUNNER)"
-OUT=$(adb shell am instrument -w "$RUNNER" 2>&1)
+INST_LOG=/tmp/instrument_out.txt
+adb shell am instrument -w "$RUNNER" > "$INST_LOG" 2>&1 &
+INST_PID=$!
+INST_TIMEOUT=300
+INST_END=$(( $(date +%s) + INST_TIMEOUT ))
+while kill -0 "$INST_PID" 2>/dev/null; do
+  if [[ $(date +%s) -ge $INST_END ]]; then
+    kill "$INST_PID" 2>/dev/null || true
+    echo "✗ Instrumented tests timed out after ${INST_TIMEOUT}s"
+    cat "$INST_LOG"
+    exit 1
+  fi
+  sleep 5
+done
+wait "$INST_PID" || true
+OUT=$(cat "$INST_LOG")
 echo "$OUT"
 
 echo ""
