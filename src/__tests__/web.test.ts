@@ -1,4 +1,5 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, beforeEach, mock } from 'node:test';
+import assert from 'node:assert/strict';
 import { KeepAwakeWeb } from '../web';
 
 describe('KeepAwakeWeb', () => {
@@ -11,32 +12,34 @@ describe('KeepAwakeWeb', () => {
   describe('without Wake Lock API', () => {
     it('dontAllowSleep returns isAllowedSleep true when API unavailable', async () => {
       const result = await plugin.dontAllowSleep();
-      expect(result).toEqual({ isAllowedSleep: true });
+      assert.deepStrictEqual(result, { isAllowedSleep: true });
     });
 
     it('allowSleep returns isAllowedSleep true', async () => {
       const result = await plugin.allowSleep();
-      expect(result).toEqual({ isAllowedSleep: true });
+      assert.deepStrictEqual(result, { isAllowedSleep: true });
     });
 
     it('isKeepAwake returns false when no lock held', async () => {
       const result = await plugin.isKeepAwake();
-      expect(result).toEqual({ isKeepAwake: false });
+      assert.deepStrictEqual(result, { isKeepAwake: false });
     });
   });
 
   describe('with Wake Lock API', () => {
-    const mockRelease = vi.fn().mockResolvedValue(undefined);
-    let mockSentinel: { release: typeof mockRelease; addEventListener: ReturnType<typeof vi.fn> };
+    let mockRelease: ReturnType<typeof mock.fn>;
+    let mockRequest: ReturnType<typeof mock.fn>;
+    let mockSentinel: { release: ReturnType<typeof mock.fn>; addEventListener: ReturnType<typeof mock.fn> };
 
     beforeEach(() => {
-      mockRelease.mockClear();
+      mockRelease = mock.fn(async () => undefined);
       mockSentinel = {
         release: mockRelease,
-        addEventListener: vi.fn(),
+        addEventListener: mock.fn(),
       };
+      mockRequest = mock.fn(async () => mockSentinel);
       Object.defineProperty(navigator, 'wakeLock', {
-        value: { request: vi.fn().mockResolvedValue(mockSentinel) },
+        value: { request: mockRequest },
         writable: true,
         configurable: true,
       });
@@ -44,39 +47,43 @@ describe('KeepAwakeWeb', () => {
 
     it('dontAllowSleep acquires wake lock', async () => {
       const result = await plugin.dontAllowSleep();
-      expect(navigator.wakeLock.request).toHaveBeenCalledWith('screen');
-      expect(result).toEqual({ isAllowedSleep: false });
+      assert.deepStrictEqual(mockRequest.mock.calls[0].arguments, ['screen']);
+      assert.deepStrictEqual(result, { isAllowedSleep: false });
     });
 
     it('isKeepAwake returns true after dontAllowSleep', async () => {
       await plugin.dontAllowSleep();
       const result = await plugin.isKeepAwake();
-      expect(result).toEqual({ isKeepAwake: true });
+      assert.deepStrictEqual(result, { isKeepAwake: true });
     });
 
     it('allowSleep releases wake lock', async () => {
       await plugin.dontAllowSleep();
       const result = await plugin.allowSleep();
-      expect(mockRelease).toHaveBeenCalled();
-      expect(result).toEqual({ isAllowedSleep: true });
+      assert.ok(mockRelease.mock.callCount() > 0);
+      assert.deepStrictEqual(result, { isAllowedSleep: true });
     });
 
     it('isKeepAwake returns false after allowSleep', async () => {
       await plugin.dontAllowSleep();
       await plugin.allowSleep();
       const result = await plugin.isKeepAwake();
-      expect(result).toEqual({ isKeepAwake: false });
+      assert.deepStrictEqual(result, { isKeepAwake: false });
     });
 
     it('dontAllowSleep handles request failure gracefully', async () => {
-      (navigator.wakeLock.request as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('Not allowed'));
+      Object.defineProperty(navigator, 'wakeLock', {
+        value: { request: mock.fn(async () => { throw new Error('Not allowed'); }) },
+        writable: true,
+        configurable: true,
+      });
       const result = await plugin.dontAllowSleep();
-      expect(result).toEqual({ isAllowedSleep: true });
+      assert.deepStrictEqual(result, { isAllowedSleep: true });
     });
 
     it('emits wakeLockReleased when the system releases the lock', async () => {
       let releaseHandler: (() => void) | undefined;
-      mockSentinel.addEventListener = vi.fn((event: string, cb: () => void) => {
+      mockSentinel.addEventListener = mock.fn((event: string, cb: () => void) => {
         if (event === 'release') releaseHandler = cb;
       });
       const events: Array<{ reason: string; timestamp: number }> = [];
@@ -85,14 +92,14 @@ describe('KeepAwakeWeb', () => {
 
       releaseHandler?.();
 
-      expect(events).toHaveLength(1);
-      expect(events[0].reason).toBe('browser');
-      expect(typeof events[0].timestamp).toBe('number');
+      assert.strictEqual(events.length, 1);
+      assert.strictEqual(events[0].reason, 'browser');
+      assert.strictEqual(typeof events[0].timestamp, 'number');
     });
 
     it('does not emit wakeLockReleased on an explicit allowSleep', async () => {
       let releaseHandler: (() => void) | undefined;
-      mockSentinel.addEventListener = vi.fn((event: string, cb: () => void) => {
+      mockSentinel.addEventListener = mock.fn((event: string, cb: () => void) => {
         if (event === 'release') releaseHandler = cb;
       });
       const events: unknown[] = [];
@@ -103,7 +110,7 @@ describe('KeepAwakeWeb', () => {
       // Browsers also fire 'release' as a result of our own release() call.
       releaseHandler?.();
 
-      expect(events).toHaveLength(0);
+      assert.strictEqual(events.length, 0);
     });
   });
 });
