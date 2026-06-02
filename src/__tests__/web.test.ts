@@ -73,7 +73,11 @@ describe('KeepAwakeWeb', () => {
 
     it('dontAllowSleep handles request failure gracefully', async () => {
       Object.defineProperty(navigator, 'wakeLock', {
-        value: { request: mock.fn(async () => { throw new Error('Not allowed'); }) },
+        value: {
+          request: mock.fn(async () => {
+            throw new Error('Not allowed');
+          }),
+        },
         writable: true,
         configurable: true,
       });
